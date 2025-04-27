@@ -12,7 +12,6 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    {{-- {{ __("You're logged in!") }} --}}
                     <div class="container">
         
                         @if(session('success'))
@@ -21,6 +20,11 @@
                             <div class="alert alert-danger">{{ session('error') }}</div>
                         @endif
                     
+                        <div class="d-grid justify-content-md-end">
+                            <form method="GET" action="{{ route('jobDescription.show') }}">
+                                <button type="submit" class="btn btn-primary">Saved Job Description</button>
+                            </form>
+                        </div>
                         <form method="POST" action="{{ route('generate') }}">
                             @csrf
                             <div class="mb-3">

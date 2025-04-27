@@ -15,73 +15,6 @@ class JobDescriptionController extends Controller
         return view('jobgen');
     }
 
-    // public function generate(Request $request)
-    // {
-    //     $request->validate([
-    //         'job_title' => 'required|string|max:100',
-    //         'skills' => 'required|string',
-    //         'industry' => 'required|string',
-    //         'experience' => 'required|string',
-    //     ]);
-
-    //     $prompt = "Generate a job description for a {$request->job_title}\n" .
-    //             "Skills in: {$request->skills}\n" .
-    //             "Experience Required: {$request->experience} years\n\n";
-
-    //     $response = Http::withHeaders([
-    //         'Authorization' => 'Bearer ' . env('HUGGINGFACE_API_KEY'),
-    //         'Accept' => 'application/json',
-    //         'Content-Type' => 'application/json',
-    //     ])->timeout(60)->post('https://api-inference.huggingface.co/models/google/flan-t5-large', [
-    //         'inputs' => $prompt,
-    //         'parameters' => [
-    //             'max_new_tokens' => 240,
-    //             'temperature' => 0.7,
-    //         ],
-    //     ]);
-
-    //     $data = $response->json();
-    //     $generatedText = $data[0]['generated_text'] ?? 'No output generated. Please try again later.';
-
-    //     if (!Auth::check()) {
-    //         $view = 'jobgen';
-    //     }
-
-    //     $view = 'dashboard';
-
-    //     return view($view, [
-    //         'description' => $generatedText,
-    //         'input' => $request->all(),
-    //     ]);
-    // }
-
-
-    // public function save(Request $request)
-    // {
-    //     if (!Auth::check()) {
-    //         return redirect()->back()->with('error', 'Please log in to save your job description.');
-    //     }
-
-    //     $request->validate([
-    //         'job_title' => 'required|string|max:100',
-    //         'skills' => 'required|string',
-    //         'industry' => 'required|string',
-    //         'experience' => 'required|string',
-    //         'description' => 'required|string',
-    //     ]);
-
-    //     JobDescription::create([
-    //         'user_id' => Auth::id(),
-    //         'job_title' => $request->job_title,
-    //         'skills' => $request->skills,
-    //         'industry' => $request->industry,
-    //         'experience' => $request->experience,
-    //         'description' => $request->description,
-    //     ]);
-
-    //     return view('dashboard')->with('success', 'Job description saved successfully.');
-    // }
-
     public function generate(Request $request)
     {
         $validated = $request->validate([
@@ -101,7 +34,7 @@ class JobDescriptionController extends Controller
                 'Authorization' => 'Bearer ' . env('HUGGINGFACE_API_KEY'),
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
-            ])->timeout(60)->post('https://api-inference.huggingface.co/models/google/flan-t5-large', [
+            ])->timeout(60)->post(env('HUGGINGFACE_MODEL_URL'), [
                 'inputs' => $prompt,
                 'parameters' => [
                     'max_new_tokens' => 240,
@@ -159,4 +92,17 @@ class JobDescriptionController extends Controller
             return redirect()->route('dashboard')->with('error', 'Failed to save job description');
         }
     }
+    public function jobDescriptionShow(Request $request)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Please log in to continue.');
+        }
+
+        $jdData = JobDescription::where('user_id', Auth::id())->get();
+
+        return view('jobDescriptionShow', [
+            'jobDescriptions' => $jdData,
+        ]);
+    }
+
 }
