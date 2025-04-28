@@ -7,6 +7,8 @@ It is built using Laravel 12 and integrates with the Hugging Face Inference API 
 - Fill in Job Title, Skills, Industry, and Experience to generate a job description.
 - Uses Hugging Face models to create detailed and structured job descriptions.
 - Built with Laravel and Bootstrap for a clean and responsive UI.
+- Updated  a "Copy to Clipboard" feature.
+- Save generated descriptions to a database (history tracking).
 - Handles API responses, timeouts, and errors effectively.
 
 # Technologies Used
