@@ -20,17 +20,11 @@ It is built using Laravel 12 and integrates with the Hugging Face Inference API 
 
 Follow these steps to set up the project locally:
 
-- Clone the Repository 
-git clone https://github.com/yourusername/job-description-generator.git
+- Clone the Repository:-  git clone https://github.com/yourusername/job-description-generator.git
 cd job-description-generator
 
-- Install Composer Dependencies
-composer install
+- Install Composer Dependencies:-  composer install
 
-- Add Hugging Face API Key
+- Add Hugging Face API Key:-  Get a free API token from Hugging Face.
 
-Get a free API token from Hugging Face.
-
-- Run the Development Server
-
-php artisan serve
+- Run the Development Server:-  php artisan serve
